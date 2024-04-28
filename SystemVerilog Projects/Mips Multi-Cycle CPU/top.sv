@@ -249,14 +249,6 @@ module datapath(input  logic        clk, reset,
 endmodule
 
 
-module jumpsl2(input logic [25:0] a,
-	       output logic [27:0] y);
-
-assign y = {a[25:0], 2'b00};
-
-endmodule
-
-
 module mem(input logic clk, we,
  	   input logic [31:0] a, wd,
  	   output logic [31:0] rd);
