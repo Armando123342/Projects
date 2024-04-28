@@ -95,12 +95,20 @@ module mux4 #(parameter WIDTH = 8)
 
 endmodule
 
-
+// register for both read ports on the register file
 module readreg (input logic clk, reset,
                 input logic [31:0] rd1, rd2,
 		output logic [31:0] a, b);
 
   flopr #(32) areg(clk, reset, rd1, a);
   flopr #(32) breg(clk, reset, rd2, b);
+
+endmodule
+
+// left shift by two for the jump instruction
+module jumpsl2(input logic [25:0] a,
+	       output logic [27:0] y);
+
+assign y = {a[25:0], 2'b00};
 
 endmodule
