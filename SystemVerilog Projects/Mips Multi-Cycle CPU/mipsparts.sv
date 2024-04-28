@@ -17,11 +17,13 @@ module regfile(input  logic        clk, we3,
   assign rd2 = (ra2 != 0) ? rf[ra2] : 0;
 endmodule
 
+
 module adder(input  logic [31:0] a, b,
              output logic [31:0] y);
 
   assign y = a + b;
 endmodule
+
 
 module sl2(input  logic [31:0] a,
            output logic [31:0] y);
@@ -29,11 +31,13 @@ module sl2(input  logic [31:0] a,
   assign y = {a[29:0], 2'b00}; 		// shift left by 2
 endmodule
 
+
 module signext(input  logic [15:0] a,
                output logic [31:0] y);
               
   assign y = {{16{a[15]}}, a};
 endmodule
+
 
 module flopr #(parameter WIDTH = 8)
               (input  logic             clk, reset,
@@ -45,6 +49,7 @@ module flopr #(parameter WIDTH = 8)
     else       q <= d;
 endmodule
 
+
 module flopenr #(parameter WIDTH = 8)
                 (input  logic             clk, reset, en,
                  input  logic [WIDTH-1:0] d, 
@@ -55,6 +60,7 @@ module flopenr #(parameter WIDTH = 8)
     else if (en)    q <= d;
 endmodule
 
+
 module mux2 #(parameter WIDTH = 8)
              (input  logic [WIDTH-1:0] d0, d1, 
               input  logic             s, 
@@ -63,3 +69,38 @@ module mux2 #(parameter WIDTH = 8)
   assign y = s ? d1 : d0; 
 endmodule
 
+
+module mux3 #(parameter WIDTH = 8)
+             (input  logic [WIDTH-1:0] d0, d1, d2,
+              input  logic [1:0]       s, 
+              output logic [WIDTH-1:0] y);
+
+  assign #1 y = s[1] ? d2 : (s[0] ? d1 : d0); 
+
+endmodule
+
+
+module mux4 #(parameter WIDTH = 8)
+             (input  logic [WIDTH-1:0] d0, d1, d2, d3,
+              input  logic [1:0]       s, 
+              output logic [WIDTH-1:0] y);
+
+   always_comb
+      case(s)
+         2'b00: y <= d0;
+         2'b01: y <= d1;
+         2'b10: y <= d2;
+         2'b11: y <= d3;
+      endcase
+
+endmodule
+
+
+module readreg (input logic clk, reset,
+                input logic [31:0] rd1, rd2,
+		output logic [31:0] a, b);
+
+  flopr #(32) areg(clk, reset, rd1, a);
+  flopr #(32) breg(clk, reset, rd2, b);
+
+endmodule
