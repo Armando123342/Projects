@@ -1,7 +1,5 @@
-// files needed for simulation:
-//  mipsttest.sv   mipstop.sv, mipsmem.sv,  mips.sv,  mipsparts.sv
+// Single-Cycle MIPS Processor
 
-// single-cycle MIPS processor
 module mips(input  logic        clk, reset,
             output logic [31:0] pc,
             input  logic [31:0] instr,
@@ -25,6 +23,7 @@ module mips(input  logic        clk, reset,
               aluout, writedata, readdata);
 endmodule
 
+// This module produceses the control bits the datapath
 module controller(input  logic [5:0] op, funct,
                   input  logic       zero,
                   output logic       memtoreg, memwrite,
@@ -127,7 +126,7 @@ module datapath(input  logic        clk, reset,
   logic [31:0] srca, srcb;
   logic [31:0] result;
 
-  // next PC logic
+  // Next PC logic
   flopr #(32) pcreg(clk, reset, pcnext, pc);
   adder       pcadd1(pc, 32'b100, pcplus4);
   sl2         immsh(signimm, signimmsh);
@@ -136,7 +135,7 @@ module datapath(input  logic        clk, reset,
   mux2 #(32)  pcmux(pcnextbr, {pcplus4[31:28], instr[25:0], 2'b00}, 
                     jump, pcnext);
 
-  // register file logic
+  // Register file logic
   regfile     rf(clk, regwrite, instr[25:21],
                  instr[20:16], writereg,
                  result, srca, writedata);
