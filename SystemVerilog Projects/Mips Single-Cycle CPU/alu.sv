@@ -15,7 +15,6 @@ module alu(
 	OR_32bit or0(a, BB, OR);
 
 	Adder add(a, BB, f[2], S);
-	//Get_OF of(a[31], b[31], f[2], S[31], OF);
 
 	Get_SLT slt(a[31], b[31], f[3], S[31], SLT);
 
