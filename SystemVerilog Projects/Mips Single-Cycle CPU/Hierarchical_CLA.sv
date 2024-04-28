@@ -1,3 +1,7 @@
+/* A hierarichal structure of carry lookahead
+   is used to reduce the delay  in computing the 
+   carries and the summation of two binary numbers */
+
 module GPbit(
     input logic a, b, cin,
     output logic g, p, cout);
@@ -7,6 +11,7 @@ module GPbit(
     assign cout = g | (p & cin);
 
 endmodule
+
 
 module GPblk(
     input logic Gik, Gkj, Pik, Pkj, cin,
