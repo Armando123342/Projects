@@ -18,13 +18,13 @@ module alu(
 
 	Get_SLT slt(a[31], b[31], f[3], S[31], SLT);
 
-	Mux5_32 mux0(AND, OR, S, {31'b0, SLT}, f[2:0], y);
+	Mux8_32 mux0(AND, OR, S, {31'b0, SLT}, f[2:0], y);
 
 	GetZero getzero(y, zero);
 
 endmodule
 
-module Mux5_32(
+module Mux8_32(
 	input logic [31: 0] d0, d1, d2, d3,
 	input logic [2:0] f,
 	output logic [31:0] Y);
@@ -53,6 +53,7 @@ module Adder(
 	Hierarchical_CLA HCLA1(A[31:16], B[31:16], cout, ,Y[31:16]);
 endmodule 
 
+// Checks if the output of the adder is zero
 module GetZero(
 	input logic [31:0] Y,
 	output logic zero);
@@ -123,6 +124,7 @@ module AND_32bit(
 	assign Y = A & B;
 endmodule
 
+// Checks if there is an overflow
 module Get_OF(
 	input logic A, B, F, S,
 	output logic OF);
@@ -130,6 +132,7 @@ module Get_OF(
 	assign OF = (~A & B & S) | (A & ~B & ~S);
 endmodule
 
+//Set Less Than operation
 module Get_SLT(
 	input logic a, b, u, s,
 	output logic SLT);
