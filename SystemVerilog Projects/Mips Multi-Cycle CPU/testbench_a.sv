@@ -1,4 +1,5 @@
-module controllertest();
+// testbench for memfile_a
+module testbench();
 
   logic        clk;
   logic	[31:0] pc;
